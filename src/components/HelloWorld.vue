@@ -157,7 +157,7 @@
   .rateplan-entry
     background #fff
     height 12.5rem
-    text-align right
+    text-align left
     position relative
     border-radius 0.625rem
     padding 1.25rem
@@ -172,7 +172,7 @@
       border 1px dashed #ff6900
       background-image  url("/static/img/texture_abroad.png")
     .entry-title
-      font-size 1.75rem
+      font-size 1rem
       color #96a8b9
     .desc
       color #525252
