@@ -6,9 +6,9 @@
     <div class="entry-wrapper">
       <flexbox>
         <flexbox-item>
-          <div class="rateplan-entry domestic" @click="jsGetNativeInfo">
-            <h3 class="entry-title">JS调原生</h3>
-            <p class="desc">{{nativeData}}</p>
+          <div class="rateplan-entry domestic" @click="getNativeLocation">
+            <h3 class="entry-title">获取定位信息</h3>
+            <p class="desc">{{location}}</p>
             <div class="btn-wrapper">
               <x-button type="primary">开始获取</x-button>
             </div>
@@ -62,7 +62,7 @@
     },
     data () {
       return {
-        nativeData:"获取原生数据",
+        location:"lat 0,lon,0",
         jsData:"原生获取JS数据"
       }
     },
@@ -97,19 +97,19 @@
         })
       },
 
-      jsGetNativeInfo () {
-
+      getNativeLocation() {
         let _self = this;
         requestHybrid({
-          tagname: 'getinfo',
+          tagname: 'getlocation',
           param: {
-            key: 'nativeKey',
+
           },
-          callback(data){
-            _self.nativeData = data;
-            // _self.nativeData = "sdsd";
+          callback (data) {
+            let lat = data.lat;
+            let lon = data.lon;
+            _self.location = `lat:${lat} \n lon: ${lon}`;
           }
-        });
+        })
       },
 
       nativeGetJSInfo() {
