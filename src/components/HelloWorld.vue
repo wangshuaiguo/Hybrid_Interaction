@@ -17,11 +17,11 @@
 
 
         <flexbox-item>
-          <div class="rateplan-entry foreign" @click="nativeGetJSInfo">
-            <h3 class="entry-title">原生调JS</h3>
+          <div class="rateplan-entry foreign" @click="loginSuccess">
+            <h3 class="entry-title">登录成功</h3>
             <p class="desc">{{jsData}}  </p>
             <div class="btn-wrapper">
-              <x-button type="primary" >获取后弹窗</x-button>
+              <x-button type="primary" >发送info</x-button>
             </div>
           </div>
         </flexbox-item>
@@ -39,6 +39,12 @@
         </div>
         <div class="btn-wrapper" @click="sharesdk">
           <x-button type="primary" >分享</x-button>
+        </div>
+        <div class="btn-wrapper" @click="configSetting(1)">
+          <x-button type="primary" >修改通知</x-button>
+        </div>
+        <div class="btn-wrapper" @click="configSetting(2)">
+          <x-button type="primary" >修改定位</x-button>
         </div>
       </flexbox-item>
 
@@ -63,7 +69,7 @@
     data () {
       return {
         location:"lat 0,lon,0",
-        jsData:"原生获取JS数据"
+        jsData:"登录成功web的数据"
       }
     },
     methods: {
@@ -80,7 +86,7 @@
         requestHybrid({
           tagname: 'jumptoconversation',
           param: {
-            targetId:'wangkejie'
+            targetId:'buzhengchang'
           }
         })
       },
@@ -96,7 +102,24 @@
           }
         })
       },
+      configSetting(type) { // 1,notification | 2,location
+        if (type === 1) {
 
+          requestHybrid({
+            tagname: 'syssetting',
+            param: {
+              settingType: 'notification'
+            }
+          })
+        } else if (type === 2) {
+          requestHybrid({
+            tagname: 'syssetting',
+            param: {
+              settingType: 'location'
+            }
+          })
+        }
+      },
       getNativeLocation() {
         let _self = this;
         requestHybrid({
@@ -112,28 +135,18 @@
         })
       },
 
-      nativeGetJSInfo() {
+      loginSuccess() {
         let _self = this;
-
         requestHybrid({
-          tagname: 'setheader',
+          tagname: 'userinfo',
           param: {
-            title: '全部订单历史'
+            userOnlySign:'liuxiaoluId',
+            userName:'liuxiaolu',
+            userPortraitUri:'http://cdn.duitang.com/uploads/item/201510/16/20151016090939_hN4Wm.jpeg',
+            rongCloudToken:"YvNVvoIpwW5zz82kKye7vVoSlgIFRM61ybFrIBxl319SMuII+FKwXq7iBxlLbSzanVdxm0QPA57lSxnFGqAhatCAPZAd2oId",
           },
-          callback (data) {
-
-
-            requestHybrid({
-              tagname: 'getinfo',
-              param: {
-                key: 'nativeKey',
-              },
-              callback(data) {
-                _self.nativeData = "sdsd";
-
-              }}
-            )
-            _self.nativeData = data.data;
+          callback(data) {
+            _self.jsData = "发送成功"
           }
         })
       },

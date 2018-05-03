@@ -2,6 +2,7 @@
  * Created by wangkejie.
  */
 window.Hybrid = window.Hybrid || {};
+let Hybrid = window.Hybrid;
 
 let isIos = (/iphone|ipad/gi).test(navigator.appVersion);
 let bridgePostMsg = (url) => {
