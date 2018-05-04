@@ -140,10 +140,11 @@
         requestHybrid({
           tagname: 'userinfo',
           param: {
-            userOnlySign:'liuxiaoluId',
-            userName:'liuxiaolu',
-            userPortraitUri:'http://cdn.duitang.com/uploads/item/201510/16/20151016090939_hN4Wm.jpeg',
-            rongCloudToken:"YvNVvoIpwW5zz82kKye7vVoSlgIFRM61ybFrIBxl319SMuII+FKwXq7iBxlLbSzanVdxm0QPA57lSxnFGqAhatCAPZAd2oId",
+            avatar:'196.png',
+            rongCloudToken:'uGFD93eUu4dzz82kKye7vVoSlgIFRM61ybFrIBxl3190o4ytZeWJL5Ov7oUpR7uPrk6jZMZMdDsqzAQSdCI+6cpZFcXh2s9yW56waa6ZIHbfTky+EqQgymD4C+TJykhq',
+            userId:'1',
+            userName:"15116929213",
+            userOnlySign: "29237243f27b4009acb8a37b5da758c0"
           },
           callback(data) {
             _self.jsData = "发送成功"
