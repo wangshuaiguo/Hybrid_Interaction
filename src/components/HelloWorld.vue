@@ -46,6 +46,9 @@
         <div class="btn-wrapper" @click="configSetting(2)">
           <x-button type="primary" >修改定位</x-button>
         </div>
+        <div class="btn-wrapper" @click="navigationbarcontrol">
+          <x-button type="primary" >导航条控制</x-button>
+        </div>
       </flexbox-item>
 
     </div>
@@ -69,7 +72,8 @@
     data () {
       return {
         location:"lat 0,lon,0",
-        jsData:"登录成功web的数据"
+        jsData:"登录成功web的数据",
+        showOrNot:true
       }
     },
     methods: {
@@ -86,9 +90,15 @@
         requestHybrid({
           tagname: 'jumptoconversation',
           param: {
-            targetId:'buzhengchang'
+            targetId:'buzhengchang',
+            touxiang:'',
+            name:'',
+            iphone:''
+
+
           }
         })
+
       },
       sharesdk() {
         requestHybrid({
@@ -98,7 +108,7 @@
             text:'内容',
             titleUrl:'sdsda',
             url:'地址',
-            comment:'图片',
+            imgurl:'图片',
           }
         })
       },
@@ -109,6 +119,9 @@
             tagname: 'syssetting',
             param: {
               settingType: 'notification'
+            },
+            callback(data) {
+
             }
           })
         } else if (type === 2) {
@@ -116,6 +129,9 @@
             tagname: 'syssetting',
             param: {
               settingType: 'location'
+            },
+            callback(data) {
+
             }
           })
         }
@@ -152,6 +168,26 @@
         })
       },
 
+
+      navigationbarcontrol() {
+        var control = '';
+        if (this.showOrNot) {
+          control = 'show';
+          this.showOrNot = false;
+        } else {
+          control = 'hidden';
+          this.showOrNot = true;
+        }
+        requestHybrid({
+          tagname: 'navigationbar',
+          param: {
+            control: `${control}`//hidden,show
+          },
+          callback(data) {
+
+          }
+        })
+      }
     }
   }
 </script>
