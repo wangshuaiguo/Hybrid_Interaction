@@ -49,6 +49,9 @@
         <div class="btn-wrapper" @click="navigationbarcontrol">
           <x-button type="primary" >导航条控制</x-button>
         </div>
+        <div class="btn-wrapper" @click="openNewWeb">
+          <x-button type="primary" >打开一个新的浏览器</x-button>
+        </div>
       </flexbox-item>
 
     </div>
@@ -83,6 +86,9 @@
           tagname: 'jumptoconversationlist',
           param:{
 
+          },
+          callback(data) {
+
           }
         })
       },
@@ -95,6 +101,9 @@
             name:'',
             iphone:''
 
+
+          },
+          callback(data) {
 
           }
         })
@@ -109,6 +118,9 @@
             titleUrl:'sdsda',
             url:'地址',
             imgurl:'图片',
+          },
+          callback(data) {
+
           }
         })
       },
@@ -187,7 +199,31 @@
 
           }
         })
+      },
+
+
+      openNewWeb() {
+
+        if (window.localStorage) {
+          alert("浏览器支持localStorage");
+        }else {
+          alert("浏览器不支持localStorage");
+        }
+
+
+        requestHybrid({
+          tagname: 'opennewwebview',
+          param: {
+            newh5url: 'https://www.baidu.com' //hidden,show
+          },
+          callback(data) {
+
+          }
+        })
+
+
       }
+
     }
   }
 </script>
