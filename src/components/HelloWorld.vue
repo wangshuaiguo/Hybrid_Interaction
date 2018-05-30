@@ -52,6 +52,9 @@
         <div class="btn-wrapper" @click="openNewWeb">
           <x-button type="primary" >打开一个新的浏览器</x-button>
         </div>
+        <div class="btn-wrapper" @click="loadPage">
+          <x-button type="primary" >{{loadStateMsg}}</x-button>
+        </div>
       </flexbox-item>
 
     </div>
@@ -76,7 +79,9 @@
       return {
         location:"lat 0,lon,0",
         jsData:"登录成功web的数据",
-        showOrNot:true
+        showOrNot:true,
+        loadStateMsg:'点击 开始加载页面',
+        loadState:true
       }
     },
     methods: {
@@ -92,16 +97,35 @@
           }
         })
       },
+
+
+      isFirstLogin() {
+        requestHybrid({
+          tagname: 'isfirstlogin',
+          param: {
+
+          },
+          callback(data) {
+           let isfirstlogin = data.isfirstlogin ;// 0或者空是第一次，返回有值都是已登录 ，数字 1
+            let imageBase64 = data.imagedata;//imagedata 为base64图片
+          }
+        })
+      },
+
       jumptoconversation() {
         requestHybrid({
           tagname: 'jumptoconversation',
           param: {
-            targetId:'buzhengchang',
-            touxiang:'',
-            name:'',
-            iphone:''
+            targetId:'buzhengchang',  //让你们传bdw+userid，非只传userid，原生拼接了bdw，哎！坑
+            msgtype:'custommsg', //custommsg 自定义消息 如果缺少该字段或者为空，则仅仅是打开聊天
 
+            titlestr:'测试消息=》比得屋办公室南向两居 满五年且在京无其它住宅',
+            subtitlestr:"5室1厅/140㎡/西南",
+            pricestr:"1000万",
+            imageurlstr:'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3011097111,3568123653&fm=27&gp=0.jpg',
+            contenturlstr:'https://www.baidu.com',
 
+            nickname: '顾问名字'
           },
           callback(data) {
 
@@ -163,23 +187,40 @@
         })
       },
 
+      // loginSuccess() {
+      //   let _self = this;
+      //   requestHybrid({
+      //     tagname: 'userinfo',
+      //     param: {
+      //       avatar:'196.png',
+      //       rongCloudToken:'uGFD93eUu4dzz82kKye7vVoSlgIFRM61ybFrIBxl3190o4ytZeWJL5Ov7oUpR7uPrk6jZMZMdDsqzAQSdCI+6cpZFcXh2s9yW56waa6ZIHbfTky+EqQgymD4C+TJykhq',
+      //       userId:'1',
+      //       userName:"15116929213",
+      //       userOnlySign: "29237243f27b4009acb8a37b5da758c0"
+      //     },
+      //     callback(data) {
+      //       _self.jsData = "发送成功"
+      //     }
+      //   })
+      // },
       loginSuccess() {
         let _self = this;
         requestHybrid({
           tagname: 'userinfo',
           param: {
             avatar:'196.png',
-            rongCloudToken:'uGFD93eUu4dzz82kKye7vVoSlgIFRM61ybFrIBxl3190o4ytZeWJL5Ov7oUpR7uPrk6jZMZMdDsqzAQSdCI+6cpZFcXh2s9yW56waa6ZIHbfTky+EqQgymD4C+TJykhq',
+            rongCloudToken:'+6cpZFcXh2s9yW56waa6ZIHbfTky+EqQgymD4C+TJykhq',
             userId:'1',
             userName:"15116929213",
-            userOnlySign: "29237243f27b4009acb8a37b5da758c0"
+            userOnlySign: "",
+            cookiename:'',
+            cookievalue:''
           },
           callback(data) {
             _self.jsData = "发送成功"
           }
         })
       },
-
 
       navigationbarcontrol() {
         var control = '';
@@ -193,7 +234,8 @@
         requestHybrid({
           tagname: 'navigationbar',
           param: {
-            control: `${control}`//hidden,show
+            control: `${control}`,//hidden,show
+            title: '比得屋'
           },
           callback(data) {
 
@@ -222,6 +264,31 @@
         })
 
 
+      },
+
+      loadPage() {
+
+        var loadstate1 = "";
+        if (this.loadState) {
+          this.loadStateMsg = '点击结束加载';
+          this.loadState = false;
+          loadstate1 = 'start';
+        } else  {
+          this.loadStateMsg = '点击开始加载';
+          this.loadState = true;
+          loadstate1 = 'end';
+
+        }
+
+        requestHybrid({
+          tagname: 'loadstate',
+          param: {
+            loadstate:`${loadstate1}`, //start开始   end结束
+          },
+          callback(data) {
+
+          }
+        })
       }
 
     }
