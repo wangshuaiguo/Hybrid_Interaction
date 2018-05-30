@@ -256,7 +256,7 @@
         requestHybrid({
           tagname: 'opennewwebview',
           param: {
-            newh5url: 'https://www.baidu.com' //hidden,show
+            newh5url: 'https://www.baidu.com' //新页面地址，主意和app不要有任何关系
           },
           callback(data) {
 
