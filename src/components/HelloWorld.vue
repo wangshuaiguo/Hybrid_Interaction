@@ -1,5 +1,23 @@
 <template>
   <div class="index-wrapper" >
+
+    <input type="text">
+
+    <input type="search">
+
+     <form action="javascript:return true;">       
+                   
+    <input
+      name=
+        "seach"
+      type
+        ="search" 
+      placeholder=""
+      id="seach"
+    />
+               
+  </form>
+
     <h2 class="index-title">
       请选择类型：
     </h2>
@@ -26,7 +44,15 @@
           </div>
         </flexbox-item>
 
-
+        <flexbox-item>
+          <div class="rateplan-entry foreign" @click="getlocalinfo">
+            <h3 class="entry-title">设备信息</h3>
+            <p class="desc">{{deviceinfo}}  </p>
+            <div class="btn-wrapper">
+              <x-button type="primary" >获取info</x-button>
+            </div>
+          </div>
+        </flexbox-item>
 
       </flexbox>
 
@@ -55,6 +81,12 @@
         <div class="btn-wrapper" @click="loadPage">
           <x-button type="primary" >{{loadStateMsg}}</x-button>
         </div>
+        <div class="btn-wrapper" @click="getlocalinfo">
+          <x-button type="primary" >获取设备信息</x-button>
+        </div>
+        <div class="btn-wrapper" @click="gotomarket">
+          <x-button type="primary" >去下载</x-button>
+        </div>
       </flexbox-item>
 
     </div>
@@ -81,14 +113,15 @@
         jsData:"登录成功web的数据",
         showOrNot:true,
         loadStateMsg:'点击 开始加载页面',
-        loadState:true
+        loadState:true,
+        deviceinfo:"设备信息"
       }
     },
     methods: {
 
       jumptoconversationlist() {
         requestHybrid({
-          tagname: 'jumptoconversationlist',
+          tagname: 'jumpnativepage',
           param:{
 
           },
@@ -100,6 +133,8 @@
 
 
       isFirstLogin() {
+
+
         requestHybrid({
           tagname: 'isfirstlogin',
           param: {
@@ -135,7 +170,7 @@
       },
       sharesdk() {
         requestHybrid({
-          tagname: 'sharesdk',
+          tagname: 'share',
           param: {
             title:'标题',
             text:'内容',
@@ -172,6 +207,13 @@
           })
         }
       },
+
+      sharesdk(name) {
+
+        name(23)
+
+      },
+
       getNativeLocation() {
         let _self = this;
         requestHybrid({
@@ -182,6 +224,7 @@
           callback (data) {
             let lat = data.lat;
             let lon = data.lon;
+            // _self.location = JSON.stringify(data);
             _self.location = `lat:${lat} \n lon: ${lon}`;
           }
         })
@@ -289,11 +332,67 @@
 
           }
         })
+      },
+
+      getlocalinfo() {
+        let _self = this;
+        requestHybrid({
+          tagname: 'getdeviceinfo',   //获取设备信息
+          param: {},
+          callback(data) {
+            let os = data.ostype; // 0,安卓 1,iOS
+            let imei = data.imei; //安卓imei号
+            let androidid = data.androidid;//安卓id
+            let idfa = data.idfa;//iOS的idfa
+            let currentversion = data.currentversion;//app原生版本，例如2.0.3
+
+            let channel = data.channel; // 渠道 ios， baidu, c360，vivo，oppo等等
+
+            _self.deviceinfo = `${os},imei = ${imei},androidid = ${androidid},idfa = ${idfa}，currentversion = ${currentversion}`
+          }
+        })
+      },
+
+      gotomarket() {
+        requestHybrid({
+          tagname: 'gotomarket',
+          param: {
+            marketurl: 'https://www.baidu.com'   //安卓app更新下载地址，ios可以缺省
+          },
+          callback(data) {
+
+          }
+        })
+      },
+
+      localstoragemanager() {
+        requestHybrid({
+          tagname: 'localstoragemanager',
+          param: {
+            isread: '0', //    1代表读取   0代表写入  （必填项）
+            localstoragekey: 'localstoragekey',  //自定义key，读取可写入时使用，保证唯一切一致性。 （必填项）
+            localstoragevalue: 'localstoragevalue',//当isread为0的时候必填，此时为储存的value值   （储存时必填项）
+          },
+          callback(data) {
+
+             let result = data.result;
+             // result  当isread为1时，代表写入结果  非空0即为成功
+
+            // result 当isread为0时，代表读取的结果，此结果为上次保存的key对应的结果，没有则为空
+
+
+          }
+
+        })
       }
+
+
+
+
 
     }
   }
-</script>
+</script>https://github.com/yexiaochai/Hybrid.git
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 
   .index-title
